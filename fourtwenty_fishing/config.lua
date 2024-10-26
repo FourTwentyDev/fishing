@@ -2,6 +2,16 @@
 Config = {}
 Config.Locale = 'de'
 
+Config.FishingSettings = {
+    autoFishing = true, -- Wenn true, wird automatisch weitergeangelt
+    autoCooldown = 5000, -- 2 Sekunden Cooldown beim automatischen Angeln
+    cancelKey = 177, -- BACKSPACE zum Abbrechen
+    startKey = 38, -- E zum Starten
+    -- Animations für das Warten zwischen den Würfen
+    waitingAnimDict = "amb@world_human_stand_fishing@idle_a",
+    waitingAnim = "idle_c",
+}
+
 Config.FishingZones = {
     {
         name = "Strand Zone",
@@ -43,8 +53,9 @@ Config.Blips = {
 }
 
 Config.SellPoint = {
-    coords = vector3(-1816.0, -1193.0, 13.0),
-    npcModel = "s_m_m_fishingspc_01"
+    coords = vector3(902.6486, -2274.9658, 32.5476),
+    heading = 319.0,
+    npcModel = "s_m_m_migrant_01"
 }
 
 Config.FishingRods = {

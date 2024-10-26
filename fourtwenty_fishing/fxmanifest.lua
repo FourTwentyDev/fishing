@@ -27,4 +27,9 @@ server_scripts {
   'server/*.lua',
 }
 
-files {}
+
+ui_page 'web/index.html'
+
+files {
+    'web/index.html'
+}

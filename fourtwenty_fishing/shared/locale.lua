@@ -10,6 +10,9 @@ Locales = {
         ['level_up'] = 'Fishing level up! You are now level %s',
         ['blip_fish_market'] = 'Fish Market',
         ['blip_fishing_spot'] = 'Fishing Spot',
+        ['press_start_auto_fishing'] = 'Press ~INPUT_CONTEXT~ to start fishing. ~INPUT_CELLPHONE_CANCEL~ to cancel.',
+        ['fishing_stopped'] = 'Quit fishing.',
+        ['press_to_cancel'] = 'Press ~INPUT_CELLPHONE_CANCEL~ to quit fishing'
     },
     ['de'] = {
         ['press_start_fishing'] = 'Drücke ~INPUT_CONTEXT~ zum Angeln',
@@ -22,6 +25,9 @@ Locales = {
         ['level_up'] = 'Angel-Level aufgestiegen! Du bist jetzt Level %s',
         ['blip_fish_market'] = 'Fischmarktt',
         ['blip_fishing_spot'] = 'Angelplatz',
+        ['press_start_auto_fishing'] = 'Drücke ~INPUT_CONTEXT~ um automatisch zu angeln. ~INPUT_CELLPHONE_CANCEL~ zum Abbrechen.',
+        ['fishing_stopped'] = 'Angeln beendet.',
+        ['press_to_cancel'] = 'Drücke ~INPUT_CELLPHONE_CANCEL~ um das Angeln zu beenden'
     }
 }
 
