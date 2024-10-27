@@ -62,11 +62,11 @@ local function UpdatePrices()
     if pricesChanged then
         local timeUntilUpdate = math.floor(Config.DynamicPricing.updateInterval)
         TriggerClientEvent('fishing:updatePrices', -1, currentPrices, timeUntilUpdate)
-        print("[FourTwenty Fishing] Market prices updated")
+        ----print("[FourTwenty Fishing] Market prices updated")
 
         -- Debug price logging
         for item, price in pairs(currentPrices) do
-            print(string.format("[FourTwenty Fishing] New price for %s: $%d", item, price))
+            ----print(string.format("[FourTwenty Fishing] New price for %s: $%d", item, price))
         end
     end
 end
@@ -74,7 +74,7 @@ end
 -- Price update thread
 CreateThread(function()
     InitializePrices()
-    print("[FourTwenty Fishing] Market system initialized")
+    --print("[FourTwenty Fishing] Market system initialized")
     
     while true do
         local currentTime = os.time()
@@ -90,7 +90,7 @@ RegisterServerEvent('fishing:sellFish')
 AddEventHandler('fishing:sellFish', function()
     local xPlayer = ESX.GetPlayerFromId(source)
     if not xPlayer then 
-        print("[FourTwenty Fishing] Error: Player not found")
+        --print("[FourTwenty Fishing] Error: Player not found")
         return 
     end
     
@@ -119,8 +119,8 @@ AddEventHandler('fishing:sellFish', function()
     -- Then process the transaction if there's anything to sell
     if totalEarnings > 0 then
         -- Debug output
-        print(string.format("[FourTwenty Fishing] Starting sale for player %s", xPlayer.identifier))
-        print(string.format("[FourTwenty Fishing] Total earnings calculated: $%d", totalEarnings))
+        --print(string.format("[FourTwenty Fishing] Starting sale for player %s", xPlayer.identifier))
+        --print(string.format("[FourTwenty Fishing] Total earnings calculated: $%d", totalEarnings))
         
         -- Add money first
         xPlayer.addAccountMoney('money', totalEarnings)
@@ -128,16 +128,16 @@ AddEventHandler('fishing:sellFish', function()
         -- Then remove items
         for _, sale in ipairs(soldItems) do
             xPlayer.removeInventoryItem(sale.item, sale.count)
-            print(string.format("[FourTwenty Fishing] Sold %dx %s for $%d each", 
-                sale.count, sale.item, sale.price))
+            --print(string.format("[FourTwenty Fishing] Sold %dx %s for $%d each", 
+                --sale.count, sale.item, sale.price))
         end
         
         -- Notify client of successful sale
         TriggerClientEvent('fishing:sellComplete', source, totalEarnings)
-        print(string.format("[FourTwenty Fishing] Sale completed for %s: $%d", 
-            xPlayer.identifier, totalEarnings))
+        --print(string.format("[FourTwenty Fishing] Sale completed for %s: $%d", 
+           -- xPlayer.identifier, totalEarnings))
     else
-        print(string.format("[FourTwenty Fishing] No items to sell for player %s", xPlayer.identifier))
+        --print(string.format("[FourTwenty Fishing] No items to sell for player %s", xPlayer.identifier))
     end
 end)
 
