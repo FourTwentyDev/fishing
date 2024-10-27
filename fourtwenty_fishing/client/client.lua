@@ -1,6 +1,10 @@
 --[[
-    Fishing Script - Client
-    Contains all functions for the fishing system including zones, blips, NPCs and animations
+    client.lua
+    Part of FourTwenty Fishing System
+    https://fourtwenty.dev | https://github.com/FourTwentyDev
+    
+    Main client-side functionality for fishing mechanics
+    Version: 1.0.0
 ]]
 
 ESX = exports["es_extended"]:getSharedObject()
@@ -12,6 +16,7 @@ local showHelpText = false
 local fishingData = {level = 1, xp = 0}
 local lastFishingPos = nil
 
+-- Animation constants
 local ANIMS = {
     WAITING = "amb@world_human_stand_fishing@idle_a",
     WAITING_ACTION = "idle_c",
@@ -76,16 +81,6 @@ CreateThread(function()
                     showHelpText = false
                 end
             end
-            
-            -- Check sell point
-            local sellDistance = #(playerCoords - Config.SellPoint.coords)
-            if sellDistance < 3.0 then
-                wait = 0
-                DrawText3D(Config.SellPoint.coords.x, Config.SellPoint.coords.y, Config.SellPoint.coords.z, translate('press_sell_fish'))
-                if IsControlJustPressed(0, 38) then
-                    TriggerServerEvent('fishing:sellFish')
-                end
-            end
         end
 
         -- Reset zone if too far away
@@ -137,8 +132,9 @@ CreateThread(function()
         Wait(1)
     end
     
-
-    local npc = CreatePed(4, GetHashKey(Config.SellPoint.npcModel), Config.SellPoint.coords.x, Config.SellPoint.coords.y, Config.SellPoint.coords.z - 1.0, Config.SellPoint.heading or 0.0, false, true)
+    local npc = CreatePed(4, GetHashKey(Config.SellPoint.npcModel), 
+        Config.SellPoint.coords.x, Config.SellPoint.coords.y, Config.SellPoint.coords.z - 1.0, 
+        Config.SellPoint.heading or 0.0, false, true)
     FreezeEntityPosition(npc, true)
     SetEntityInvincible(npc, true)
     SetBlockingOfNonTemporaryEvents(npc, true)
@@ -217,13 +213,13 @@ function StartFishingSequence(rod)
     isFishing = true
     local playerPed = PlayerPedId()
 
-    -- Start fishing animation and prevent prop dropping
+    -- Initialize fishing animation
     ClearPedTasks(playerPed)
     SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
-    TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_STAND_FISHING", 0, false)  -- Set to false to prevent prop dropping
+    TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_STAND_FISHING", 0, false)
 
     CreateThread(function()
-        -- Show cancel hint continuously in auto mode
+        -- Show cancel hint in auto mode
         if Config.FishingSettings.autoFishing then
             CreateThread(function()
                 while isFishing do
@@ -237,12 +233,13 @@ function StartFishingSequence(rod)
             local fishingTime = math.random(5000, 15000)
             local startTime = GetGameTimer()
 
-            -- Wait for fish
+            -- Fish bite wait period
             while GetGameTimer() - startTime < fishingTime do
                 if not isFishing then return end
                 
-                -- Check interruption conditions
-                if IsEntityDead(playerPed) or IsPedInAnyVehicle(playerPed, false) or 
+                -- Check for interruptions
+                if IsEntityDead(playerPed) or 
+                   IsPedInAnyVehicle(playerPed, false) or 
                    #(GetEntityCoords(playerPed) - lastFishingPos) > 3.0 then
                     ESX.ShowNotification(translate('fishing_interrupted'))
                     SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
@@ -253,14 +250,14 @@ function StartFishingSequence(rod)
             end
 
             if isFishing then
-                -- Catch attempt
+                -- Attempt catch
                 TriggerServerEvent('fishing:attemptCatch', rod.item)
                 
                 if Config.FishingSettings.autoFishing then
                     SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
                     ClearPedTasks(playerPed)
                     
-                    -- Waiting animation between casts
+                    -- Play waiting animation
                     if not HasAnimDictLoaded(Config.FishingSettings.waitingAnimDict) then
                         RequestAnimDict(Config.FishingSettings.waitingAnimDict)
                         while not HasAnimDictLoaded(Config.FishingSettings.waitingAnimDict) do
@@ -273,14 +270,14 @@ function StartFishingSequence(rod)
                         Config.FishingSettings.waitingAnim,
                         8.0, -8.0, -1, 1, 0, false, false, false)
                     
-                    -- Auto-fishing cooldown
+                    -- Wait for auto-fishing cooldown
                     Wait(Config.FishingSettings.autoCooldown)
                     
-                    -- Resume fishing animation if not cancelled
+                    -- Resume fishing if not cancelled
                     if isFishing then
                         SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
                         ClearPedTasks(playerPed)
-                        TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_STAND_FISHING", 0, false)  -- Set to false to prevent prop dropping
+                        TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_STAND_FISHING", 0, false)
                     end
                 else
                     StopFishing()
@@ -290,7 +287,7 @@ function StartFishingSequence(rod)
     end)
 end
 
--- Stop fishing
+-- Stop fishing activity
 function StopFishing()
     if not isFishing then return end
     
@@ -299,15 +296,15 @@ function StopFishing()
 
     SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)    
     ClearPedTasks(playerPed)
-
     
     ESX.ShowNotification(translate('fishing_stopped'))
 end
 
--- Helper functions
+-- Animation helper functions
 function PlayFishingAnimation(animDict, animName, duration)
     local playerPed = PlayerPedId()
     
+    -- Load animation dictionary if needed
     if not HasAnimDictLoaded(animDict) then
         RequestAnimDict(animDict)
         while not HasAnimDictLoaded(animDict) do
@@ -318,12 +315,13 @@ function PlayFishingAnimation(animDict, animName, duration)
     TaskPlayAnim(playerPed, animDict, animName, 8.0, -8.0, duration or -1, 1, 0, false, false, false)
 end
 
--- Catch animation
+-- Catch result animation
 function PlayCatchAnimation(success)
     local playerPed = PlayerPedId()
     SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
     ClearPedTasks(playerPed)
     
+    -- Play success or failure animation
     if success then
         PlayFishingAnimation(ANIMS.SUCCESS, ANIMS.SUCCESS_ACTION, 5000)
     else
@@ -332,9 +330,10 @@ function PlayCatchAnimation(success)
     
     Wait(2500)
     
+    -- Resume fishing if in auto mode
     if isFishing and Config.FishingSettings.autoFishing then
         SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
-        TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_STAND_FISHING", 0, false)  -- Set to false to prevent prop dropping
+        TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_STAND_FISHING", 0, false)
     end
 end
 
@@ -349,11 +348,6 @@ RegisterNetEvent('fishing:catchFailed')
 AddEventHandler('fishing:catchFailed', function()
     ESX.ShowNotification(translate('fish_got_away'))
     PlayCatchAnimation(false)
-end)
-
-RegisterNetEvent('fishing:sellComplete')
-AddEventHandler('fishing:sellComplete', function(earnings)
-    ESX.ShowNotification(translate('fish_sold', earnings))
 end)
 
 RegisterNetEvent('fishing:levelUp')

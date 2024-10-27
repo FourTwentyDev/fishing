@@ -1,3 +1,12 @@
+--[[
+    utils.lua
+    Part of FourTwenty Fishing System
+    https://fourtwenty.dev | https://github.com/FourTwentyDev
+    
+    Utility functions for the fishing system
+    Version: 1.0.0
+]]
+
 function DrawText3D(x, y, z, text)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     if onScreen then

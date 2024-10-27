@@ -1,14 +1,14 @@
 --[[ 
     FourTwenty Development
     discord.gg/fourtwenty
-    fourtwenty.dev
+    https://fourtwenty.dev
 ]]
 
 fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 
-name 'fw_fishing'
+name 'fourtwenty_fishing'
 description 'Fishing Script - Catch fish and earn rewards!'
 author 'FourTwenty Development'
 version '1.0.0'
@@ -31,5 +31,7 @@ server_scripts {
 ui_page 'web/index.html'
 
 files {
-    'web/index.html'
+    'web/index.html',
+    'web/app.js',
+    'web/style.css'
 }

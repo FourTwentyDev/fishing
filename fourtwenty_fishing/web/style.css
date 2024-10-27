@@ -1,0 +1,192 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: none;
+    height: 100vh;
+    background: transparent;
+    user-select: none;
+}
+
+.market-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    background: rgba(17, 24, 39, 0.95);
+    border: 1px solid rgba(75, 85, 99, 0.4);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.market-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    border-bottom: 1px solid rgba(75, 85, 99, 0.4);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.icon-container {
+    background: rgba(59, 130, 246, 0.2);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.icon-container svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #60A5FA;
+}
+
+.header-info h2 {
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.header-info p {
+    color: #9CA3AF;
+    font-size: 0.875rem;
+}
+
+.close-button {
+    background: transparent;
+    border: none;
+    color: #9CA3AF;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.2s;
+}
+
+.close-button:hover {
+    color: white;
+}
+
+.fish-list {
+    padding: 1.25rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.fish-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(31, 41, 55, 0.5);
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.fish-item:hover {
+    background: rgba(31, 41, 55, 0.7);
+}
+
+.fish-info h3 {
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.fish-info p {
+    color: #9CA3AF;
+    font-size: 0.875rem;
+}
+
+.price-info {
+    text-align: right;
+}
+
+.price-current {
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.price-total {
+    color: #9CA3AF;
+    font-size: 0.875rem;
+}
+
+.trend-up {
+    color: #10B981;
+}
+
+.trend-down {
+    color: #EF4444;
+}
+
+.market-footer {
+    padding: 1.25rem;
+    border-top: 1px solid rgba(75, 85, 99, 0.4);
+}
+
+.total-value {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.total-value span:first-child {
+    color: #9CA3AF;
+}
+
+.total-value span:last-child {
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.sell-button {
+    width: 100%;
+    background: #2563EB;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.sell-button:hover {
+    background: #1D4ED8;
+}
+
+.sell-button:disabled {
+    background: #4B5563;
+    cursor: not-allowed;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(31, 41, 55, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4B5563;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6B7280;
+}
