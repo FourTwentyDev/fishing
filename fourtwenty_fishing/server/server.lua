@@ -80,13 +80,19 @@ local function AddFishingXP(identifier, xp)
                 ['@level'] = newLevel
             })
             
-            -- Handle level up
             if newLevel > result[1].level then
                 local xPlayer = ESX.GetPlayerFromIdentifier(identifier)
                 if xPlayer then
                     TriggerClientEvent('fishing:levelUp', xPlayer.source, newLevel)
                 end
             end
+        else
+            local initialLevel = CalculateLevel(xp)
+            MySQL.Async.execute('INSERT INTO fourtwenty_fishing (identifier, xp, level) VALUES (@identifier, @xp, @level)', {
+                ['@identifier'] = identifier,
+                ['@xp'] = xp,
+                ['@level'] = initialLevel
+            })
         end
     end)
 end
