@@ -26,20 +26,38 @@ local ANIMS = {
     FAIL_ACTION = "face_palm"
 }
 
--- Initialize animations
-CreateThread(function()
-    -- Load all required animation dictionaries
-    for dict, _ in pairs(ANIMS) do
-        RequestAnimDict(dict)
-        while not HasAnimDictLoaded(dict) do
-            Wait(100)
+-- Function to load animation dictionaries
+function LoadFishingAnimations()
+    CreateThread(function()
+        for dict, _ in pairs(ANIMS) do
+            RequestAnimDict(dict)
+            local attempts = 0
+            
+            while not HasAnimDictLoaded(dict) and attempts < 10 do
+                Wait(100)
+                attempts = attempts + 1
+            end
+            
+            if attempts >= 10 then
+                print('Failed to load animation dictionary: ' .. dict)
+            end
         end
-    end
-
-    -- Get initial player data
-    ESX.TriggerServerCallback('fishing:getPlayerData', function(data)
-        fishingData = data
     end)
+end
+
+-- Function to get initial player fishing data
+function InitializeFishingData()
+    CreateThread(function()
+        ESX.TriggerServerCallback('fishing:getPlayerData', function(data)
+            fishingData = data
+        end)
+    end)
+end
+
+-- Call both functions to maintain original functionality
+CreateThread(function()
+    InitializeFishingData()
+    LoadFishingAnimations()
 end)
 
 -- Main loop for zone checks and interactions
