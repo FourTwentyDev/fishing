@@ -14,7 +14,7 @@ Locales = {
         ['press_start_auto_fishing'] = 'Press ~INPUT_CONTEXT~ to start fishing. ~INPUT_CELLPHONE_CANCEL~ to cancel.',
         ['fishing_stopped'] = 'Quit fishing.',
         ['press_to_cancel'] = 'Press ~INPUT_CELLPHONE_CANCEL~ to quit fishing',
-        
+        ['fishing_interrupted'] = "Fishing got interrupted",
         -- UI translations
         ['ui_fish_market'] = 'Fish Market',
         ['ui_next_price_change'] = 'Next price change in',
@@ -44,7 +44,7 @@ Locales = {
         ['press_start_auto_fishing'] = 'Drücke ~INPUT_CONTEXT~ um automatisch zu angeln. ~INPUT_CELLPHONE_CANCEL~ zum Abbrechen.',
         ['fishing_stopped'] = 'Angeln beendet.',
         ['press_to_cancel'] = 'Drücke ~INPUT_CELLPHONE_CANCEL~ um das Angeln zu beenden',
-        
+        ['fishing_interrupted'] = "Das Fischen wurde unterbrochen",
         -- UI translations
         ['ui_fish_market'] = 'Fischmarkt',
         ['ui_next_price_change'] = 'Nächste Preisänderung in',
