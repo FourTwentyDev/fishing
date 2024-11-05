@@ -4,6 +4,8 @@
 Config = {}
 -- Set the language for the system (en = English)
 Config.Locale = 'en'
+-- Using OX Inventory?
+Config.ox_inventory = false -- Set true if you use ox_inventory
 
 Config.FishingSettings = {
     -- If true, player will automatically continue fishing after catching something
