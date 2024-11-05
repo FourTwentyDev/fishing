@@ -72,10 +72,16 @@ function UpdateFishMarketUI()
     
     local inventory = {}
     local totalValue = 0
-    local playerInventory = ESX.GetPlayerData().inventory
+    local playerInventory = {}
     local currentTime = GetGameTimer()
     local timeUntilUpdate = math.max(0, nextUpdate - (currentTime - lastUpdateTime))
 
+    if Config.ox_inventory then
+        playerInventory = exports.ox_inventory:Items()
+    else
+        playerInventory = ESX.GetPlayerData().inventory
+    end
+    
     for _, fish in pairs(Config.Fish) do
         local inventoryItem = nil
         local itemCount = 0
